@@ -1,22 +1,22 @@
-import express from "express";
-import morgan from "morgan";
-import 'dotenv/config';
+const express = require('express');
+const morgan = require('morgan');
+require('dotenv').config();
 
 
 const app = express();
 
 //routes
-import userRoutes from "./routes/users.routes.js"
+const routes = require('./routes/routes')
 
 //middlewares
 app.use(morgan("dev"));
 app.use(express.json());
 
 
-app.use("/api/users", userRoutes);
+app.use("/api", routes);
 
-app.get("/", async (req, res) => {
-  res.send("<h1>hola<h1/>");
+app.get("/api/", async (req, res) => {
+  res.json({API: 'UP'});
 });
 
-export default app;
+module.exports = app;

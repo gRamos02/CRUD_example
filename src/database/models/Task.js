@@ -1,42 +1,35 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class User extends Model {
+    class Task extends Model {
         static associate(models){
-            this.hasMany(models.Task, {foreignKey: 'userId'})
+            this.belongsTo(models.User, {foreignKey: 'userId'});
         }
     }
 
-    User.init({
-        //Los atributos del modelo se definen aqui
-        id: {
+    Task.init({
+        userId: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
             allowNull: false,
         },
-        name: {
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        email: {
+        description: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        userName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.STRING,
+        status: {
+            type: DataTypes.ENUM('active','inactive','in_progress','finished','canceled'),
             allowNull: false,
         }
-        //------------ 
     }, {
         //Otras opciones
         sequelize,
-        modelName: 'User',
-        tableName: 'users',
+        modelName: 'Task',
+        tableName: 'tasks',
         timestamps: true, //Esto agrega dos columnas, createdAt, updatedAt
     });
-    return User;
+    return Task;
 }
+
